@@ -1,0 +1,5 @@
+httpx
+python-dotenv
+agno[a2a]
+fastapi
+anthropic

@@ -1,0 +1,10 @@
+{
+  "name": "mastra-client-checks",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Node-side bridge process using Mastra's own first-party A2A client (@mastra/core/a2a). Spawned as a persistent subprocess by mastra_prober.py, since Mastra's A2AAgent.resumeGenerate() only works within the SAME long-lived process (its run state is an in-memory Map, not something that can be reconstructed across separate process invocations).",
+  "dependencies": {
+    "@mastra/core": "^1.50.1"
+  }
+}

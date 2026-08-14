@@ -1,0 +1,5 @@
+httpx
+python-dotenv
+agent-framework-a2a
+agent-framework-core[all]
+anthropic

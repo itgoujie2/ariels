@@ -1,0 +1,4 @@
+httpx
+python-dotenv
+fasta2a
+anthropic

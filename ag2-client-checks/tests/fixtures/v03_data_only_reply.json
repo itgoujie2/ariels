@@ -1,0 +1,28 @@
+{
+  "_provenance": "Real capture: POST https://agent-ready.dev/api/v1/a2a against a live production agent found via a2aregistry.org, 2026-07-07. Its public 'ask' skill (no API key required) gave a genuinely rich, real answer -- 8 relevant Schema.org-typed search results -- entirely as a single 'kind':'data' part, with no 'kind':'text' part at all. Motivated extending _extract_texts() to also serialize data parts: without it, a fully substantive answer was reported as empty content. Trimmed to 1 of 8 results for fixture brevity.",
+  "jsonrpc": "2.0",
+  "id": "1",
+  "result": {
+    "kind": "message",
+    "role": "agent",
+    "messageId": "QTmqFcyKVV7vuM5Wh8oWg",
+    "contextId": "sYSgQ3YjXviJKDtzsni-C",
+    "parts": [
+      {
+        "kind": "data",
+        "data": {
+          "_meta": {"response_type": "answer", "version": "0.1", "mode": "list"},
+          "query": "How is the llms.txt score calculated?",
+          "results": [
+            {
+              "url": "https://agent-ready.dev/state-of-agent-readability#faq",
+              "name": "How is the agent-readability score calculated?",
+              "score": 9.961,
+              "description": "Each scan runs dozens of checks across four layers - site-level discovery files, per-page extraction signals, the llms.txt standard, and agent-protocol manifests."
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

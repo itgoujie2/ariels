@@ -1,0 +1,28 @@
+# Secrets
+.env
+*.env
+!*.env.example
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# Node (mastra-client-checks)
+node_modules/
+
+# Go (adkgo-client-checks) — compiled binary, rebuild with
+# `cd bridge && go build -o adkgo_bridge .`
+adkgo-client-checks/bridge/adkgo_bridge
+
+# Java/Maven (langchain4j-client-checks) — compiled shaded jar,
+# rebuild with `cd bridge && mvn package`
+langchain4j-client-checks/bridge/target/
+langchain4j-client-checks/bridge/dependency-reduced-pom.xml
+
+# Prober output (trajectory files — regenerated on every run, not source)
+langgraph-prober/runs/
+adk-prober/runs/
+langgraph-prober/judgment_runs/
+*/runs/

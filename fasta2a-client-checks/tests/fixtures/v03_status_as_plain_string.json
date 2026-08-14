@@ -1,0 +1,18 @@
+{
+  "_provenance": "Real capture: POST https://ai.syln.cn/a2a against a live production agent (昆仑/Kunlun, found via a2aregistry.org), 2026-07-07. Its Task object's 'status' field is a plain string ('completed'), not an object with a 'state' field ({'state': 'completed'}) like every other agent tested. Before _normalize() normalized this, calling status.get('state', ...) on a raw string crashed with \"'str' object has no attribute 'get'\" -- a real Python exception leaking out of our own parsing code, not a clean protocol-level error. Also uses role:'assistant' (a third role-naming convention, OpenAI-style) and {'type':'text',...} parts -- both already handled fine, since neither is checked by name/value anywhere in the parsing path.",
+  "jsonrpc": "2.0",
+  "id": "1",
+  "result": {
+    "id": "task-6a4ca96304b48",
+    "status": "completed",
+    "message": {
+      "role": "assistant",
+      "parts": [
+        {
+          "type": "text",
+          "text": "昆仑收到: ping"
+        }
+      ]
+    }
+  }
+}

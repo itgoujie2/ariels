@@ -1,0 +1,9 @@
+{
+  "_provenance": "Real capture: POST http://127.0.0.1:9200/ against a throwaway server built to return a shape matching neither Task nor Message, 2026-07-07. Verifies UnrecognizedResponseShapeError fires instead of a silent misparse.",
+  "jsonrpc": "2.0",
+  "id": "1",
+  "result": {
+    "foo": "totally not a task or a message",
+    "bar": 42
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "_provenance": "Real capture: POST https://getamber.dev/api/a2a against a live production agent ('Ambr', found via a2aregistry.org), 2026-07-07. Uses underscores instead of the spec's hyphens for compound state names -- \"input_required\" instead of \"input-required\". This was the first real agent all session to naturally need a multi-turn input-required resolution; before this fix, the state was invisible to both assertions.py's known-state checks AND prober.py's CONTINUABLE_STATES check, so the prober never attempted a follow-up at all.",
+  "jsonrpc": "2.0",
+  "id": null,
+  "result": {
+    "task": {
+      "id": "3b166c2d-3cf3-4673-bb6e-b0a15489e321",
+      "status": {
+        "state": "input_required",
+        "message": {
+          "role": "agent",
+          "parts": [
+            {
+              "type": "text",
+              "text": "I couldn't determine what you need. Available skills: create_contract, list_templates, get_contract, verify_hash, get_status. Please specify a skill or describe your request more clearly."
+            }
+          ]
+        }
+      }
+    }
+  }
+}

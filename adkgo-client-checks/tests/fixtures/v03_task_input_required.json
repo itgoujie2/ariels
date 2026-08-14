@@ -1,0 +1,32 @@
+{
+  "_provenance": "Real capture: POST http://127.0.0.1:9100/ against fixtures/customer-agents/order-status-agent, missing-order-id case, 2026-07-07.",
+  "id": "2",
+  "jsonrpc": "2.0",
+  "result": {
+    "contextId": "6db46672-faf2-4bfe-9576-a11053c3b3c8",
+    "history": [
+      {
+        "contextId": "6db46672-faf2-4bfe-9576-a11053c3b3c8",
+        "kind": "message",
+        "messageId": "m2",
+        "parts": [{"kind": "text", "text": "What is my order status?"}],
+        "role": "user",
+        "taskId": "50831122-89b8-46cc-94ac-5ab868a404ac"
+      }
+    ],
+    "id": "50831122-89b8-46cc-94ac-5ab868a404ac",
+    "kind": "task",
+    "status": {
+      "message": {
+        "contextId": "6db46672-faf2-4bfe-9576-a11053c3b3c8",
+        "kind": "message",
+        "messageId": "3d3f9167-f3e3-4821-a203-1c8f72f99652",
+        "parts": [{"kind": "text", "text": "Sure — what's your order ID? (5 digits)"}],
+        "role": "agent",
+        "taskId": "50831122-89b8-46cc-94ac-5ab868a404ac"
+      },
+      "state": "input-required",
+      "timestamp": "2026-07-07T02:23:41.0Z"
+    }
+  }
+}

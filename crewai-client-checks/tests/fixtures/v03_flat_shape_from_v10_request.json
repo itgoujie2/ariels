@@ -1,0 +1,25 @@
+{
+  "_provenance": "Real capture: POST https://paki-api.elfresonero.workers.dev with method 'SendMessage' and header A2A-Version:1.0 (a real, live, v1.0-declaring art-curation agent found via a2aregistry.org), 2026-07-07. Despite the v1.0 request, the response is a pure v0.3-flat envelope: kind:'task' at the top level (not nested under a 'task' key), lowercase state, {'kind':'text',...} parts -- confirmed the opposite mismatch from agent.co-legal.be (which always replies v1.0-style regardless of request dialect). Motivated making _normalize shape-driven instead of dialect-driven: response shape doesn't track request dialect in either direction.",
+  "jsonrpc": "2.0",
+  "id": "1",
+  "result": {
+    "kind": "task",
+    "id": "47dd55be-f370-4b41-bfab-1cc062f6a6ec",
+    "contextId": "423af4cc-753f-4ce7-abc7-f166973f7eb4",
+    "status": {
+      "state": "completed"
+    },
+    "artifacts": [
+      {
+        "artifactId": "d15cd955-2772-473a-b45f-86bffe07c1f5",
+        "name": "PaKi Response",
+        "parts": [
+          {
+            "kind": "text",
+            "text": "Gracias por tu interés. En este momento no puedo atender nuevas conversaciones. Si crees que esto es un error, puedes contactar a hello@cesaryague.es."
+          }
+        ]
+      }
+    ]
+  }
+}

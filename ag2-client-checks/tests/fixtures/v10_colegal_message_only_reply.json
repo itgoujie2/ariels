@@ -1,0 +1,18 @@
+{
+  "_provenance": "Real capture: POST https://agent.co-legal.be/a2a/jsonrpc against a live production agent found via a2aregistry.org, 2026-07-07. Sent using the v0.3 method name 'message/send'; the server understood it (unlike helloworld/MolTrust, which reject unrecognized methods) but replied in pure v1.0 envelope/role shape -- confirmed a real, correct, substantive answer, distinct per skill/question. Motivated widening content_present_on_completion (formerly artifact_present_on_completion) to accept content in either status.message or artifacts: this agent never populates artifacts at all, only status.message, and was a false-negative under the old artifacts-only check.",
+  "jsonrpc": "2.0",
+  "id": "1",
+  "result": {
+    "message": {
+      "role": "ROLE_AGENT",
+      "messageId": "c47e1f9886f447158a5bc21e453c5291",
+      "parts": [
+        {
+          "text": "Het “basistarief” van de Belgische btw is het algemene btw-tarief dat geldt voor de meeste leveringen van goederen en diensten, tenzij een verlaagd tarief of vrijstelling van toepassing is."
+        }
+      ],
+      "taskId": "8aaa0a49a48f42038a4feb6860485d48",
+      "contextId": "8aaa0a49a48f42038a4feb6860485d48"
+    }
+  }
+}

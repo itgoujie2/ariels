@@ -1,0 +1,4 @@
+httpx
+python-dotenv
+a2a-sdk
+anthropic

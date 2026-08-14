@@ -1,0 +1,36 @@
+{
+  "_provenance": "Real capture: POST https://rettfrabonden.com/a2a against a live production agent found via a2aregistry.org, 2026-07-07. Puts \"artifacts\" as a sibling of the nested \"task\" wrapper -- {result: {task: {...}, artifacts: [...]}} -- rather than inside it like every other v1.0-nested-task agent tested. Before _task_from_result() merged the sibling artifacts in, deterministic extraction found nothing, silently fell through to the (slower, costlier) LLM content-extraction fallback for content that was right there one level up -- and in the live run, that fallback call itself hit a separate rare edge case (empty LLM response content) that crashed with a raw 'list index out of range'. Trimmed to 1 of 20 agent results for fixture brevity.",
+  "jsonrpc": "2.0",
+  "result": {
+    "task": {
+      "id": "5e2945b2-afdb-4084-93b9-2a78b72a2b52",
+      "status": {
+        "state": "completed",
+        "timestamp": "2026-07-07T07:41:22.190Z"
+      }
+    },
+    "artifacts": [
+      {
+        "artifactId": "search-5e2945b2-afdb-4084-93b9-2a78b72a2b52",
+        "name": "search-results",
+        "parts": [
+          {
+            "kind": "data",
+            "data": {
+              "count": 20,
+              "agents": [
+                {
+                  "agent": {
+                    "id": "61881330-66f8-4cbc-8ee6-b7f91aa876e0",
+                    "name": "Homme Gård — Øvrebø",
+                    "description": "Allsidig gård i Øvrebø ved Vennesla med døgnåpen gårdsbutikk."
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

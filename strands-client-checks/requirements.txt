@@ -1,0 +1,4 @@
+httpx
+python-dotenv
+strands-agents[a2a]
+anthropic

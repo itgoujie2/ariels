@@ -1,0 +1,5 @@
+httpx
+python-dotenv
+ag2[a2a]
+a2a-sdk[http-server]
+anthropic

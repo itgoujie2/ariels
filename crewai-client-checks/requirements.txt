@@ -1,0 +1,4 @@
+httpx
+python-dotenv
+crewai[a2a]
+anthropic

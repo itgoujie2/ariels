@@ -1,0 +1,54 @@
+{
+  "_provenance": "Real capture: POST http://127.0.0.1:9100/ against fixtures/customer-agents/order-status-agent (a2a-sdk 0.3.26), 2026-07-07.",
+  "id": "1",
+  "jsonrpc": "2.0",
+  "result": {
+    "artifacts": [
+      {
+        "artifactId": "f18c3dbb-552e-4153-a2cf-feba22817191",
+        "name": "order_status",
+        "parts": [
+          {
+            "kind": "text",
+            "text": "Order 12345 is currently shipped."
+          }
+        ]
+      }
+    ],
+    "contextId": "c2dcec49-c4a9-42b4-a820-a1f7866555b6",
+    "history": [
+      {
+        "contextId": "c2dcec49-c4a9-42b4-a820-a1f7866555b6",
+        "kind": "message",
+        "messageId": "m1",
+        "parts": [
+          {
+            "kind": "text",
+            "text": "What's the status of order 12345?"
+          }
+        ],
+        "role": "user",
+        "taskId": "e9616049-a48a-43c9-8d63-9062eb632c69"
+      }
+    ],
+    "id": "e9616049-a48a-43c9-8d63-9062eb632c69",
+    "kind": "task",
+    "status": {
+      "message": {
+        "contextId": "c2dcec49-c4a9-42b4-a820-a1f7866555b6",
+        "kind": "message",
+        "messageId": "a8ee9b56-b1de-4024-a058-e0d8fa596b3e",
+        "parts": [
+          {
+            "kind": "text",
+            "text": "Order 12345 is currently shipped."
+          }
+        ],
+        "role": "agent",
+        "taskId": "e9616049-a48a-43c9-8d63-9062eb632c69"
+      },
+      "state": "completed",
+      "timestamp": "2026-07-07T02:23:30.672030+00:00"
+    }
+  }
+}

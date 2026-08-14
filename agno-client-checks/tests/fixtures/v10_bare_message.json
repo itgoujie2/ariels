@@ -1,0 +1,13 @@
+{
+  "_provenance": "Synthetic, not yet observed live — constructed from the v1.0 spec's legal 'agent replies with a bare Message, no Task ever opened' shape. No agent we've tested actually does this yet.",
+  "jsonrpc": "2.0",
+  "id": "1",
+  "result": {
+    "message": {
+      "messageId": "reply-1",
+      "role": "ROLE_AGENT",
+      "contextId": "ctx-1",
+      "parts": [{"text": "Quick synchronous reply, no task was ever created."}]
+    }
+  }
+}

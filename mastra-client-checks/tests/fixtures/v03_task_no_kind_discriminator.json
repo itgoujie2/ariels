@@ -1,0 +1,23 @@
+{
+  "_provenance": "Real capture: POST https://p0stman.com/api/agent against a live production agent ('Zee', found via a2aregistry.org, agent card served at the legacy /.well-known/agent.json path), 2026-07-07. The Task object has no 'kind' discriminator at all -- just id/contextId/status/artifacts. Also uses {'type':'text',...} parts instead of {'kind':'text',...} (handled fine already since _extract_texts only checks for a 'text' key, agnostic to any discriminator field name or its value). Motivated _task_from_result() treating 'status' present + no 'kind' as sufficient evidence of a Task.",
+  "jsonrpc": "2.0",
+  "id": "1",
+  "result": {
+    "id": "2db4a46f-19c9-4e44-88d6-58e35154081c",
+    "contextId": "4596a140-18bc-4402-9129-25f745269dff",
+    "status": {
+      "state": "completed"
+    },
+    "artifacts": [
+      {
+        "artifactId": "be5ff044-e2ae-472d-a1ab-df3315211c54",
+        "parts": [
+          {
+            "type": "text",
+            "text": "p0stman offers AI voice agents, chatbots, MVPs, web apps, AI workflow automation, and agentic web readiness (MCP/A2A infrastructure)."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "_provenance": "Real capture: POST https://api.moltrust.ch/a2a, live production A2A v1.0 agent found via a2aregistry.org, 2026-07-07. Sent the agent's own literal declared example for its 'trust-score' skill ('What is the trust score of did:moltrust:abc123?'). Identical response confirmed for all 5 declared skills, and confirmed unchanged whether authenticated (X-MolTrust-DID, a freshly-registered valid DID) or not. The agent's real skill logic IS genuinely functional -- confirmed separately by calling its REST API directly (/skill/trust-score/{did}), which returns a full, cryptographically-signed computation. The gap: its A2A layer never routes there at all -- always this same static self-description, marked completed, zero artifacts, regardless of what's asked.",
+  "jsonrpc": "2.0",
+  "id": "1",
+  "result": {
+    "message": {
+      "messageId": "146400a4-dc35-4e33-aa7a-9fbb342d7ddb",
+      "role": "ROLE_AGENT",
+      "parts": [
+        {
+          "text": "MolTrust Trust Registry — trust infrastructure for autonomous AI agents. Skills: Agent Trust Score, DID Resolution, Verifiable Credential Verification, Wallet Binding Verification, Sybil & Anomaly Detection. Ask me to score an agent's trust, resolve a W3C DID, verify a credential, check a DID-to-wallet binding, or run sybil/anomaly detection. Paid skill calls are metered via the REST API with an X-API-Key."
+        }
+      ]
+    }
+  }
+}

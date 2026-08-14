@@ -1,0 +1,47 @@
+{
+  "_provenance": "Real capture: POST https://2s.io/a2a, live production agent found via a2aregistry.org, 2026-07-07. Motivated the status.message-empty / artifact-only fallback in _normalize(). Trimmed to 2 of 8 endpoint results for fixture brevity; shape is what matters, not the full payload.",
+  "jsonrpc": "2.0",
+  "id": "1",
+  "result": {
+    "id": "ae5b2d1b-46f3-47f3-9228-86c4f727dbb6",
+    "contextId": "f4e56754-eca6-449c-b2d7-1375ab2cbeb8",
+    "kind": "task",
+    "status": {
+      "state": "completed",
+      "timestamp": "2026-07-07T03:11:21.712Z"
+    },
+    "artifacts": [
+      {
+        "artifactId": "778d0a8d-a653-4f55-98f2-48bf0fc6cf34",
+        "name": "endpoint-matches",
+        "description": "Ranked 2s endpoints matching the request.",
+        "parts": [
+          {
+            "kind": "text",
+            "text": "Top 8 2s endpoints for \"check if a domain can be spoofed\" (of 502 matches):\n1. GET /api/domain/ct-logs — Certificate Transparency recon...\n2. GET /api/domain/whois — Modern WHOIS via RDAP..."
+          },
+          {
+            "kind": "data",
+            "data": {
+              "query": "check if a domain can be spoofed",
+              "total": 502,
+              "results": [
+                {"id": "domain.ct-logs", "path": "/api/domain/ct-logs", "method": "GET", "priceUsd": 0.00216, "score": 12.4},
+                {"id": "domain.whois", "path": "/api/domain/whois", "method": "GET", "priceUsd": 0.001, "score": 12.22}
+              ],
+              "directory": "https://2s.io/api/directory"
+            }
+          }
+        ]
+      }
+    ],
+    "history": [
+      {
+        "role": "user",
+        "parts": [{"kind": "text", "text": "check if a domain can be spoofed"}],
+        "messageId": "m1"
+      }
+    ],
+    "metadata": {"skill": "discover-endpoints", "matches": 502}
+  }
+}

@@ -1,0 +1,4 @@
+httpx
+python-dotenv
+google-adk[a2a]
+anthropic

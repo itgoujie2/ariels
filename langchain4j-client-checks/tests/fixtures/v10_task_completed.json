@@ -1,0 +1,42 @@
+{
+  "_provenance": "Real capture: POST http://127.0.0.1:9999/ with header A2A-Version:1.0 against a2a-samples/samples/python/agents/helloworld (a2a-sdk 1.1.0, unmodified official sample), 2026-07-07.",
+  "result": {
+    "task": {
+      "id": "300d2e1e-4ee5-4ba6-8325-359a1cb893cc",
+      "contextId": "88269a67-b6be-47a4-bf57-2923275aff87",
+      "status": {
+        "state": "TASK_STATE_COMPLETED",
+        "message": {
+          "messageId": "8130b6ee-685e-4dd3-9f85-7a6b99db1c2e",
+          "role": "ROLE_AGENT",
+          "parts": [{"text": "Request is completed!"}]
+        },
+        "timestamp": "2026-07-07T02:56:28.057556Z"
+      },
+      "artifacts": [
+        {
+          "artifactId": "02fc4df6-3bf4-4b6e-bece-15460d52f862",
+          "parts": [
+            {"text": "Hello, World! I have received your request (hi)", "mediaType": "text/plain"}
+          ]
+        }
+      ],
+      "history": [
+        {
+          "messageId": "m1",
+          "contextId": "88269a67-b6be-47a4-bf57-2923275aff87",
+          "taskId": "300d2e1e-4ee5-4ba6-8325-359a1cb893cc",
+          "role": "ROLE_USER",
+          "parts": [{"text": "hi"}]
+        },
+        {
+          "messageId": "0a17ee3f-d6bd-4d32-b4ca-8f2e73764006",
+          "role": "ROLE_AGENT",
+          "parts": [{"text": "Processing request..."}]
+        }
+      ]
+    }
+  },
+  "id": "1",
+  "jsonrpc": "2.0"
+}
