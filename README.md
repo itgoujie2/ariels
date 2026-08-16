@@ -6,6 +6,8 @@ Fourteen independent testing engines for the [Agent2Agent (A2A) protocol](https:
 
 Every A2A client library makes its own choices about card discovery, dialect negotiation, continuation, and error handling — and those choices genuinely differ in ways that change whether a real caller can talk to a real agent. Testing through one SDK tells you whether *that* SDK's abstraction works. Testing through fourteen independently-built clients tells you what a real, diverse ecosystem of callers will actually experience.
 
+**See [FINDINGS.md](FINDINGS.md) for what that's actually turned up** — real, live-confirmed gaps in a dozen client libraries, including several official first-party ones.
+
 ## Layout
 
 | Directory | What it tests |
@@ -36,6 +38,13 @@ The Go and Java layers (`adkgo-client-checks/`, `langchain4j-client-checks/`) ne
 ## Want to test the same agent through all fourteen at once, with a unified comparison report, continuous monitoring, and AI-judged goal completion?
 
 That's what the hosted Ariel product does — it orchestrates all fourteen of these engines together, renders one report with a cross-client comparison matrix, and can watch an agent over time and alert on regressions. This repo is the open-source core those probers are built from; the hosted product is a separate, additive layer on top, not a requirement for using any of this directly.
+
+## Contributing
+
+Bug reports (a real client behaving unexpectedly against a real agent) are
+as welcome as code. See [CONTRIBUTING.md](CONTRIBUTING.md) for how this
+repo is laid out, how to run one engine's own test suite, and what we look
+for in a regression test.
 
 ## License
 
