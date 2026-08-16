@@ -1,5 +1,7 @@
 # Ariel — A2A interoperability probers
 
+[![tests](https://github.com/itgoujie2/ariels/actions/workflows/tests.yml/badge.svg)](https://github.com/itgoujie2/ariels/actions/workflows/tests.yml)
+
 Fourteen independent testing engines for the [Agent2Agent (A2A) protocol](https://github.com/a2aproject/A2A) — two hand-rolled "golden" probers that speak the wire protocol directly, plus twelve layers that each drive a real agent through a different framework's own first-party A2A client (CrewAI, LangChain4j, Mastra, ADK-Go, Strands, and more). Point any of them at a live A2A agent's base URL and see, concretely, whether that specific client can actually reach it, discover its skills, and hold a real multi-turn conversation — not just whether the protocol spec says it should.
 
 ## Why fourteen separate implementations?

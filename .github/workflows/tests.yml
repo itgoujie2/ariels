@@ -1,0 +1,59 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    name: ${{ matrix.package }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        package:
+          - langgraph-prober
+          - adk-prober
+          - raw-sdk-client-checks
+          - ag2-client-checks
+          - crewai-client-checks
+          - strands-client-checks
+          - native-client-checks
+          - fasta2a-client-checks
+          - agno-client-checks
+          - praisonai-client-checks
+          - agent-framework-client-checks
+          - mastra-client-checks
+          - adkgo-client-checks
+          - langchain4j-client-checks
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: |
+            ${{ matrix.package }}/requirements.txt
+            ${{ matrix.package }}/requirements-dev.txt
+
+      - name: Install dependencies
+        working-directory: ${{ matrix.package }}
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt -r requirements-dev.txt
+
+      # The three cross-language layers (mastra/adkgo/langchain4j) mock
+      # their own bridge subprocess at the call level in every offline
+      # test -- confirmed live, their suites pass with no Node/Go/Java
+      # toolchain installed and no bridge ever compiled. Only a real,
+      # live run against an actual agent needs the compiled bridge; that
+      # is deliberately out of scope for CI (needs a real target and a
+      # real ANTHROPIC_API_KEY, neither appropriate for an automated
+      # check on every push/PR).
+      - name: Run tests
+        working-directory: ${{ matrix.package }}
+        env:
+          PYTHONPATH: .
+        run: pytest tests/ -v
