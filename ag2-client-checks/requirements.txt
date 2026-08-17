@@ -1,5 +1,10 @@
 httpx
 python-dotenv
-ag2[a2a]
+# ag2 1.0 dropped the `autogen` top-level import path this client
+# depends on (confirmed live: a fresh `pip install ag2[a2a]` with no
+# pin resolves 1.0.2, which raises `ModuleNotFoundError: No module
+# named 'autogen'`) -- pinned below the breaking change until this
+# layer is updated for the new API.
+ag2[a2a]<1.0
 a2a-sdk[http-server]
 anthropic
