@@ -46,7 +46,9 @@ That's what the hosted Ariel product does — it orchestrates all fourteen of th
 Bug reports (a real client behaving unexpectedly against a real agent) are
 as welcome as code. See [CONTRIBUTING.md](CONTRIBUTING.md) for how this
 repo is laid out, how to run one engine's own test suite, and what we look
-for in a regression test.
+for in a regression test. Community interactions here follow the
+[Code of Conduct](CODE_OF_CONDUCT.md). Found a security-relevant issue?
+See [SECURITY.md](SECURITY.md).
 
 ## License
 
