@@ -3,7 +3,7 @@
 This project exists because testing the A2A protocol through one client
 library only tells you whether *that* library's abstraction works. These
 are the real, live-confirmed gaps found by driving real, independently
-discovered A2A agents through fourteen different clients — including
+discovered A2A agents through many different clients — including
 several official, first-party ones. Every finding below was reproduced
 against a real agent (not synthetic), and most are locked in as offline
 regression tests in the corresponding package's own `tests/` directory.
@@ -157,7 +157,7 @@ as the discriminator instead of the spec's `{"kind": "text"}` — a
 standards-conformant agent rejects the request outright
 (`-32602 Invalid params`) before any real logic runs. This is a bug in
 the client's own *outgoing* request construction, the only finding of
-that shape across all fourteen clients tested (every other finding here
+that shape across every client tested (every other finding here
 is about response parsing). Also hardcodes its RPC path to `{base_url}/a2a`
 regardless of what a target's card actually declares, and — when that
 guessed path resolves to something that isn't an A2A endpoint at all

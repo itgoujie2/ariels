@@ -1,8 +1,8 @@
 # Contributing
 
-Thanks for considering a contribution. This repo is 14 independent testing
-engines against the A2A protocol — most contributions will touch exactly
-one of them.
+Thanks for considering a contribution. This repo is a set of independent
+testing engines against the A2A protocol — most contributions will touch
+exactly one of them.
 
 ## Before you start
 
@@ -23,13 +23,13 @@ Each top-level directory (`langgraph-prober/`, `adk-prober/`,
 `requirements.txt`, its own test suite. There's no shared build system —
 working on one engine never requires touching another.
 
-Four files are kept **byte-identical across all 14 packages**:
+Five files are kept **byte-identical across every package**:
 `app/a2a_wire.py`, `app/assertions.py`, `app/llm.py`,
 `app/version_probe.py`, and `app/report_render.py`. If you fix something
-in one copy, the same fix needs to be ported to the other 13 — this is
+in one copy, the same fix needs to be ported to every other copy — this is
 mechanical (`diff` two copies to confirm they still match before and
 after) but easy to forget. A PR that touches one of these files should
-touch all 14 copies identically, or explain why it doesn't.
+touch every copy identically, or explain why it doesn't.
 
 ## Setting up one engine
 

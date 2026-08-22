@@ -1,11 +1,12 @@
 # Ariel probers
 
-Open-source core of the Ariel project: 14 independent A2A interoperability
+Open-source core of the Ariel project: independent A2A interoperability
 testing engines — 2 hand-rolled "golden" probers (`langgraph-prober/`,
-`adk-prober/`) that speak the A2A wire protocol directly, plus 12
-native-client layers (`*-client-checks/`) that each drive a real agent
-through a different framework's own first-party A2A client. See
-`README.md` for what each one does and how to run it.
+`adk-prober/`) that speak the A2A wire protocol directly, plus a growing
+set of native-client layers (`*-client-checks/`) that each drive a real
+agent through a different framework's own first-party A2A client. See
+`README.md` for the current full list, what each one does, and how to run
+it.
 
 This repo is a **manually-synced mirror** of `reference-agents/ours/*`
 inside a separate, private sibling repo (`ariels-private`, at
@@ -16,7 +17,7 @@ discipline, not automated.
 
 ## Workflow
 
-- **Whenever you change a file inside one of the 14 package directories
+- **Whenever you change a file inside one of the package directories
   here, apply the identical change to the matching file in
   `../ariels-private/reference-agents/ours/<same package>/<same relative
   path>`, automatically, as part of the same turn — don't wait to be
@@ -25,7 +26,7 @@ discipline, not automated.
   applies in both directions: a change made while working in
   `ariels-private` under `reference-agents/ours/*` should be mirrored back
   out to this repo too.
-  - This only covers the 14 package directories themselves. This repo's
+  - This only covers the package directories themselves. This repo's
     own root-level files (`README.md`, `LICENSE`, `.gitignore`,
     `CLAUDE.md`) have no private-repo counterpart and should never be
     copied anywhere.
@@ -38,6 +39,6 @@ discipline, not automated.
   finding — add a regression test for it in the relevant package's
   `tests/` before moving on, same discipline as `ariels-private`'s own
   standing rule. Since `a2a_wire.py`/`assertions.py`/`llm.py`/
-  `version_probe.py`/`report_render.py` are kept byte-identical across all
-  14 packages, a fix in one should be ported to every other copy too, and
-  its regression test copied alongside it.
+  `version_probe.py`/`report_render.py` are kept byte-identical across
+  every package, a fix in one should be ported to every other copy too,
+  and its regression test copied alongside it.
