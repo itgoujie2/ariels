@@ -52,24 +52,20 @@ What each column actually measures:
   A2A spec's `.well-known` path, does the client retry the older, legacy
   discovery path, or just fail?
 
-`—` in the Continuation/Discovery fallback columns means the writeup below
-doesn't make a specific claim about that dimension for that client — not
-"no issue found."
-
 | Client | Reachable | Continuation | Discovery fallback | Key gap |
 |---|---|---|---|---|
 | ADK-Go | 2/153 | ✗ no plain-text resume | ✗ current path only | Rejects cards without `supportedInterfaces` |
-| LangChain4j | 0/153 | — | ✗ no legacy fallback | 100% of registry unreachable |
-| Mastra | 51/153 | ⚠️ fakes it | — | `resumeGenerate()` never actually continues the task |
+| LangChain4j | 0/153 | ✅ explicit `contextId`/`taskId` threading | ✗ no legacy fallback | 100% of registry unreachable |
+| Mastra | 51/153 | ⚠️ fakes it | ✗ no legacy fallback | `resumeGenerate()` never actually continues the task |
 | CrewAI | 71/153 | ⚠️ needs `task_id`, not just `context_id` | ✗ no legacy fallback | `input_required` text lands in `error`, not `result` |
-| AG2 | 29/153 | ⚠️ no iteration limit | — | Blocks on real stdin unless overridden |
-| fasta2a | 32/153 | — | ✗ no discovery at all | Strict validation rejects spec-legal-ish real responses |
+| AG2 | 29/153 | ⚠️ no iteration limit | ✅ current path, falls back to legacy v0.3 on 404 | Blocks on real stdin unless overridden |
+| fasta2a | 32/153 | ⚠️ fields supported, no built-in helper | ✗ no discovery at all | Strict validation rejects spec-legal-ish real responses |
 | Agno | 53/153 | ✗ no `task_id` param | ⚠️ broken in the one working mode | Defaults to a protocol mode that 404s on non-Agno agents |
-| PraisonAI | 15/153 | — | ✗ hardcoded RPC path | Wrong part discriminator (`type` vs. spec's `kind`) |
-| Microsoft Agent Framework | 5/153 | ✅ best tested | — | Silently returns empty text on non-streaming `input_required` |
-| Strands | 35/153 | ✗ none at all | — | Silently drops the agent's reply text entirely in a common shape |
-| Raw `a2a-sdk` | 42/153 | — | — | `streaming=True` default hangs indefinitely on some real agents |
-| Google ADK | 42/153 | — | — | Pinned SDK generation can't validate several real v1.0 shapes |
+| PraisonAI | 15/153 | ✗ no `task_id`/`context_id` field at all | ✗ hardcoded RPC path | Wrong part discriminator (`type` vs. spec's `kind`) |
+| Microsoft Agent Framework | 5/153 | ✅ best tested | ✗ no discovery of its own at all | Silently returns empty text on non-streaming `input_required` |
+| Strands | 35/153 | ✗ none at all | ✗ no legacy fallback | Silently drops the agent's reply text entirely in a common shape |
+| Raw `a2a-sdk` | 42/153 | ✅ simple field-based, confirmed live | ✗ single fixed path, no fallback | `streaming=True` default hangs indefinitely on some real agents |
+| Google ADK | 42/153 | ⚠️ only for `input-required`, none for `working`/`submitted` | ✗ no fallback of its own | Pinned SDK generation can't validate several real v1.0 shapes |
 
 ### ADK-Go (`google.golang.org/adk`)
 
@@ -93,7 +89,12 @@ a protobuf conversion that chokes on the card's own `security`/
 `securitySchemes` field for the majority of real cards regardless of
 whether a scheme is actually meaningfully declared (33/153). A further
 23/153 failed specifically because the target's card was only served at
-the legacy well-known path, which this client never falls back to.
+the legacy well-known path, which this client never falls back to. One
+thing this client does get right, at least on paper: `@A2AContextId`/
+`@A2ATaskId`-annotated method parameters give it explicit, correctly-
+threaded continuation state — confirmed by reading the bridge's own
+call/response plumbing. With 0/153 reachable, though, that mechanism was
+never actually exercised against a real multi-turn conversation.
 
 ### Mastra (`@mastra/core/a2a`)
 
@@ -109,7 +110,9 @@ coherent (each reply plausibly references the "previous" turn) purely
 because the calling code's own follow-up text happens to restate context
 — there is no real session continuity underneath, which a caller relying
 on this for per-task billing or an authorization scope tied to the
-original task would silently lose every single turn.
+original task would silently lose every single turn. Card discovery only
+tries the current well-known path too, no fallback to the legacy one that
+some real agents (p0stman.com among them) still use exclusively.
 
 ### CrewAI (`crewai.a2a`)
 
@@ -137,7 +140,11 @@ clarifying-question text when the agent puts it in `status.message`
 rather than a separate `history` array (confirmed against a real agent) —
 falls back to a generic placeholder, discarding the real question
 silently. Also drops any `DataPart` content from a response, keeping only
-`TextPart`.
+`TextPart`. One genuine bright spot, confirmed by reading the installed
+client's own source (`autogen/a2a/client.py`): card discovery tries the
+current well-known path first and falls back to the legacy v0.3 path on a
+404 — the only client tested that gets this right without a caller having
+to work around it.
 
 ### fasta2a (pydantic-ai)
 
@@ -147,7 +154,10 @@ own at all (a caller must already know the RPC endpoint). Strict pydantic
 response validation rejects at least two real, live agents' response
 shapes that are spec-legal-ish but non-conformant (a missing `kind`
 discriminator; a history message missing several expected fields) —
-shapes other, more tolerant clients parse without incident.
+shapes other, more tolerant clients parse without incident. `task_id`/
+`context_id` are accepted as plain message fields, but there's no built-in
+continuation helper — a caller has to track and set them on the next
+`Message` by hand.
 
 ### Agno (formerly Phidata)
 
@@ -177,7 +187,10 @@ regardless of what a target's card actually declares, and — when that
 guessed path resolves to something that isn't an A2A endpoint at all
 (a normal website's own 404 page) — its error handling doesn't check
 whether the response body is JSON before using it as the error message,
-so a real HTML error page can end up as the entire "error" text.
+so a real HTML error page can end up as the entire "error" text. No
+`task_id`/`context_id` field appears anywhere in the outgoing message
+either — zero continuation support, the same class of gap as Agno and
+Strands.
 
 ### Microsoft Agent Framework
 
@@ -192,7 +205,11 @@ as an empty string while the session's own tracked state correctly showed
 real text. Also the strictest on dialect currency of any client tested —
 5/153 reachable, since it refuses any dialect but the current v1.0 with
 zero fallback — which is arguably *correct*, closely matching this
-project's own probers' "always latest, no compromise" policy.
+project's own probers' "always latest, no compromise" policy. Has no card
+discovery of its own at all, confirmed by reading its constructor: it
+assumes the URL handed to it *is* the RPC endpoint directly, so this
+project's own tolerant discovery has to resolve the real endpoint first —
+the same workaround any real caller would need.
 
 ### Strands (AWS)
 
@@ -205,7 +222,9 @@ delivered as a plain tuple with no separate update event) — a caller
 using the public, documented API would get back a completely empty reply
 despite the agent answering correctly. The same conversion also loses the
 real task state in that shape, collapsing success/failure/rejection into
-one indistinguishable signal.
+one indistinguishable signal. Card discovery only tries the current
+well-known path as well, no fallback to the legacy one some real agents
+(p0stman.com among them) still use exclusively.
 
 ### Raw `a2a-sdk` usage
 
@@ -217,7 +236,12 @@ Auto-negotiates wire dialect from the target's own card — the opposite of
 this project's own probers' deliberate policy, and a real illustration of
 why that policy exists: a client that defers to a target's self-declared
 version will silently mask exactly the kind of version gap this project
-is built to surface.
+is built to surface. `create_client()` only fetches the card from a
+single fixed path too (`.well-known/agent-card.json` by default, or a
+caller-supplied override) — no built-in fallback, confirmed by reading
+the installed `a2a-sdk`'s own `client_factory.py`; this project's own
+harness has to try both paths itself before handing the client a working
+target.
 
 ### Google ADK (`RemoteA2aAgent`)
 
@@ -227,7 +251,18 @@ shapes (no top-level `url`
 field, a nested result shape) that a more tolerant parser handles fine —
 confirmed via direct comparison, some real agents are reachable through
 this client and not others, and vice versa, purely due to SDK-generation
-differences rather than anything about the agents themselves.
+differences rather than anything about the agents themselves. Also has no
+discovery fallback of its own at all — `RemoteA2aAgent` takes a
+pre-resolved card URL directly, so this project's own harness tries both
+the current and legacy well-known paths itself before ever constructing
+the client, the same workaround real callers would need. Continuation is
+real but incomplete: confirmed by reading `remote_a2a_agent.py`,
+`input-required` is surfaced as a synthetic `FunctionCall` a caller can
+answer to resume the same task, but `working`/`submitted` states get no
+continuation handle at all under the client's default config
+(`polling=False`, `streaming=False`) — a real caller on the
+out-of-the-box configuration would see a still-running task as stuck,
+with no way to check back on it.
 
 ## Running these checks yourself
 
