@@ -41,10 +41,9 @@ What each column actually measures:
 - **Reachable** — out of a private registry of 153 independently discovered
   real A2A agents (the URLs themselves stay private, since they're real
   third-party infrastructure not ours to publish — but the aggregate
-  counts below are real, live results), how many did this client
-  successfully connect to and get a working response from at all. Only 4
-  of the 12 clients were run at that batch scale so far; `—` means "not
-  run at that scale," not "0 passed."
+  counts below are real, live results from the same batch run, all 12
+  clients against the same 153-agent snapshot), how many did this client
+  successfully connect to and get a working response from at all.
 - **Continuation** — when a real agent comes back mid-conversation asking
   a follow-up question (`input-required`), can the client correctly
   resume the *same* task using the real `task_id`/`context_id`, or does it
@@ -59,22 +58,23 @@ doesn't make a specific claim about that dimension for that client — not
 
 | Client | Reachable | Continuation | Discovery fallback | Key gap |
 |---|---|---|---|---|
-| ADK-Go | — | ✗ no plain-text resume | ✗ current path only | Rejects cards without `supportedInterfaces` |
+| ADK-Go | 2/153 | ✗ no plain-text resume | ✗ current path only | Rejects cards without `supportedInterfaces` |
 | LangChain4j | 0/153 | — | ✗ no legacy fallback | 100% of registry unreachable |
-| Mastra | — | ⚠️ fakes it | — | `resumeGenerate()` never actually continues the task |
+| Mastra | 51/153 | ⚠️ fakes it | — | `resumeGenerate()` never actually continues the task |
 | CrewAI | 71/153 | ⚠️ needs `task_id`, not just `context_id` | ✗ no legacy fallback | `input_required` text lands in `error`, not `result` |
-| AG2 | — | ⚠️ no iteration limit | — | Blocks on real stdin unless overridden |
-| fasta2a | — | — | ✗ no discovery at all | Strict validation rejects spec-legal-ish real responses |
-| Agno | — | ✗ no `task_id` param | ⚠️ broken in the one working mode | Defaults to a protocol mode that 404s on non-Agno agents |
+| AG2 | 29/153 | ⚠️ no iteration limit | — | Blocks on real stdin unless overridden |
+| fasta2a | 32/153 | — | ✗ no discovery at all | Strict validation rejects spec-legal-ish real responses |
+| Agno | 53/153 | ✗ no `task_id` param | ⚠️ broken in the one working mode | Defaults to a protocol mode that 404s on non-Agno agents |
 | PraisonAI | 15/153 | — | ✗ hardcoded RPC path | Wrong part discriminator (`type` vs. spec's `kind`) |
 | Microsoft Agent Framework | 5/153 | ✅ best tested | — | Silently returns empty text on non-streaming `input_required` |
-| Strands | — | ✗ none at all | — | Silently drops the agent's reply text entirely in a common shape |
-| Raw `a2a-sdk` | — | — | — | `streaming=True` default hangs indefinitely on some real agents |
-| Google ADK | — | — | — | Pinned SDK generation can't validate several real v1.0 shapes |
+| Strands | 35/153 | ✗ none at all | — | Silently drops the agent's reply text entirely in a common shape |
+| Raw `a2a-sdk` | 42/153 | — | — | `streaming=True` default hangs indefinitely on some real agents |
+| Google ADK | 42/153 | — | — | Pinned SDK generation can't validate several real v1.0 shapes |
 
 ### ADK-Go (`google.golang.org/adk`)
 
-The strictest client tested. Requires a card's `supportedInterfaces`
+The strictest client tested — 2/153 real agents reachable, the lowest of
+any layer. Requires a card's `supportedInterfaces`
 field to be present at all — a flat, legacy-style card with just a `url`
 field (a large share of real agents) is rejected outright before any
 request is even attempted. Has no continuation mechanism for a plain-text
@@ -97,7 +97,8 @@ the legacy well-known path, which this client never falls back to.
 
 ### Mastra (`@mastra/core/a2a`)
 
-The most deceptive finding of any client tested: `resumeGenerate()` does
+51/153 real agents reachable. The most deceptive finding of any client
+tested: `resumeGenerate()` does
 **not** actually continue the same task, despite an API surface
 (`resumePayload`, `waitingForInput`) that strongly implies it does. It
 sets a `referenceTaskIds` link field but never sets the outgoing
@@ -127,8 +128,8 @@ limit (100) — a resource limit with nothing to do with the wire protocol.
 
 ### AG2 (`autogen.a2a`)
 
-Its internal `input-required` handling loop has **no iteration limit at
-all** — the only way to break it is answering the literal string
+29/153 real agents reachable. Its internal `input-required` handling loop
+has **no iteration limit at all** — the only way to break it is answering the literal string
 `"exit"`, a hardcoded convention in the client's own source, with no
 documented bound otherwise. Defaults to blocking on real stdin input
 unless the extension point is overridden. Loses a real agent's actual
@@ -140,8 +141,8 @@ silently. Also drops any `DataPart` content from a response, keeping only
 
 ### fasta2a (pydantic-ai)
 
-The only client tested with zero dependency on `a2a-sdk` — a from-scratch
-implementation. Speaks v0.3 only, with no `.well-known` discovery of its
+32/153 real agents reachable. The only client tested with zero dependency
+on `a2a-sdk` — a from-scratch implementation. Speaks v0.3 only, with no `.well-known` discovery of its
 own at all (a caller must already know the RPC endpoint). Strict pydantic
 response validation rejects at least two real, live agents' response
 shapes that are spec-legal-ish but non-conformant (a missing `kind`
@@ -150,8 +151,8 @@ shapes other, more tolerant clients parse without incident.
 
 ### Agno (formerly Phidata)
 
-Defaults to a `protocol="rest"` mode that constructs a URL specific to
-Agno's own server (`{base_url}/v1/message:send`) — a clean 404 against
+53/153 real agents reachable. Defaults to a `protocol="rest"` mode that
+constructs a URL specific to Agno's own server (`{base_url}/v1/message:send`) — a clean 404 against
 any real, non-Agno agent; a caller must already know to pass
 `protocol="json-rpc"` explicitly. Its own `get_agent_card()` is broken
 specifically in the one mode that works against real agents (ignores the
@@ -195,8 +196,8 @@ project's own probers' "always latest, no compromise" policy.
 
 ### Strands (AWS)
 
-Provides **no continuation mechanism whatsoever** for a multi-turn
-conversation — every call builds a fresh message with no `task_id`/
+35/153 real agents reachable. Provides **no continuation mechanism
+whatsoever** for a multi-turn conversation — every call builds a fresh message with no `task_id`/
 `context_id`, and documented `**kwargs` for this are explicitly ignored.
 More seriously: its response conversion silently drops the agent's reply
 text entirely for a common, real response shape (a completed task
@@ -208,8 +209,8 @@ one indistinguishable signal.
 
 ### Raw `a2a-sdk` usage
 
-The closest thing to a "no framework" baseline. Defaults to
-`streaming=True`, which genuinely hangs against real agents that don't
+42/153 real agents reachable. The closest thing to a "no framework"
+baseline. Defaults to `streaming=True`, which genuinely hangs against real agents that don't
 handle streaming well (confirmed against a real target: instant response
 with `streaming=False` set explicitly, indefinite hang without it).
 Auto-negotiates wire dialect from the target's own card — the opposite of
@@ -220,8 +221,9 @@ is built to surface.
 
 ### Google ADK (`RemoteA2aAgent`)
 
-The official first-party ADK client. Its pinned `a2a-sdk` generation
-can't validate several real v1.0 response shapes (no top-level `url`
+42/153 real agents reachable. The official first-party ADK client. Its
+pinned `a2a-sdk` generation can't validate several real v1.0 response
+shapes (no top-level `url`
 field, a nested result shape) that a more tolerant parser handles fine —
 confirmed via direct comparison, some real agents are reachable through
 this client and not others, and vice versa, purely due to SDK-generation
