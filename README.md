@@ -37,6 +37,47 @@ venv/bin/python run_parity.py https://your-agent.example.com    # the 12 native-
 
 This prints a JSON result and writes it to `runs/latest.json` alongside a self-contained `runs/latest.html` report you can open directly in a browser — no server, no account, nothing else needed.
 
+### Example output
+
+Real run, real agent, `overall_pass: true` — all 17 of its declared skills reached a genuine multi-turn `completed` state with real content back (trimmed below; the full output tests every skill individually):
+
+```
+$ venv/bin/python run_prober.py https://agent.co-legal.be
+{
+  "target": "https://agent.co-legal.be",
+  "agent_name": "colegal-public-assistant",
+  "agent_description": "Co-Legal Public Assistant — informational Q&A about Belgian and Dutch private-client legal and fiscal topics...",
+  "declared_dialect": "1.0",
+  "tested_dialect": "1.0",
+  "declared_skills": [
+    "answer_legal_question", "be.ecli.lookup", "eu.eurlex.lookup",
+    "iban.validate", "be.vies.validate", "..."
+  ],
+  "skills_tested": [
+    {
+      "skill_id": "iban.validate",
+      "final_state": "completed",
+      "transcript": [
+        {
+          "sent": "Is IBAN BE68 5390 0754 7034 geldig?",
+          "state": "completed",
+          "received": "IBAN BE68 5390 0754 7034 is structureel geldig: de lengte en het controlegetal zijn correct. Dit bevestigt niet dat de rekening bestaat, actief is of aan een bepaalde persoon toebehoort."
+        }
+      ],
+      "checks": [
+        { "check": "reached_stopping_point", "passed": true, "detail": "stopped at 'completed' after 1 turn(s)" },
+        { "check": "content_present_on_completion", "passed": true, "detail": "0 artifact part(s), final_message present" }
+      ],
+      "pass": true
+    }
+    // ...16 more skills, same shape
+  ],
+  "overall_pass": true
+}
+```
+
+(Replies came back in Dutch, since that's the language this particular agent responded in — the checks only care whether a real conversation reached a real stopping point with real content, not what language it's in.)
+
 The Go and Java layers (`adkgo-client-checks/`, `langchain4j-client-checks/`) need their bridge compiled once first (`cd bridge && go build` / `mvn package`); the TypeScript layer (`mastra-client-checks/`) needs `npm install` in `mastra-client-checks/`.
 
 ## Want to test the same agent through all of these at once, with a unified comparison report, continuous monitoring, and AI-judged goal completion?
