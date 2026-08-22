@@ -24,9 +24,11 @@ Each directory is self-contained: its own `venv`/dependency manifest, its own of
 
 ## Running a check
 
-Each package works the same way. From inside any one directory:
+Each package works the same way — pick any one directory from the table
+above:
 
 ```bash
+cd langgraph-prober   # or any other directory from the table above
 python -m venv venv && venv/bin/pip install -r requirements.txt
 cp .env.example .env   # add your ANTHROPIC_API_KEY -- used only to phrase probe/follow-up text, never for pass/fail judgment
 venv/bin/python run_prober.py https://your-agent.example.com    # golden probers
