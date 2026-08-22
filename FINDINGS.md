@@ -36,13 +36,25 @@ going forward.
 
 ## Per-client findings
 
-**Reachable** is out of a private registry of 153 independently discovered
-real A2A agents (the URLs themselves stay private — see `CLAUDE.md`'s scope
-notes — but the aggregate counts below are real, live results). Only 4 of
-the 12 clients were run at that batch scale so far; `—` means "not run at
-that scale," not "passed" or "failed." **Continuation** and **discovery
-fallback** are `—` where the writeup below doesn't make a specific claim,
-not "no issue found."
+What each column actually measures:
+
+- **Reachable** — out of a private registry of 153 independently discovered
+  real A2A agents (the URLs themselves stay private — see `CLAUDE.md`'s
+  scope notes — but the aggregate counts below are real, live results),
+  how many did this client successfully connect to and get a working
+  response from at all. Only 4 of the 12 clients were run at that batch
+  scale so far; `—` means "not run at that scale," not "0 passed."
+- **Continuation** — when a real agent comes back mid-conversation asking
+  a follow-up question (`input-required`), can the client correctly
+  resume the *same* task using the real `task_id`/`context_id`, or does it
+  (silently or otherwise) start an unrelated new task instead?
+- **Discovery fallback** — if an agent's card isn't found at the current
+  A2A spec's `.well-known` path, does the client retry the older, legacy
+  discovery path, or just fail?
+
+`—` in the Continuation/Discovery fallback columns means the writeup below
+doesn't make a specific claim about that dimension for that client — not
+"no issue found."
 
 | Client | Reachable | Continuation | Discovery fallback | Key gap |
 |---|---|---|---|---|
