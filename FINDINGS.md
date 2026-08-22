@@ -36,6 +36,29 @@ going forward.
 
 ## Per-client findings
 
+**Reachable** is out of a private registry of 153 independently discovered
+real A2A agents (the URLs themselves stay private — see `CLAUDE.md`'s scope
+notes — but the aggregate counts below are real, live results). Only 4 of
+the 12 clients were run at that batch scale so far; `—` means "not run at
+that scale," not "passed" or "failed." **Continuation** and **discovery
+fallback** are `—` where the writeup below doesn't make a specific claim,
+not "no issue found."
+
+| Client | Reachable | Continuation | Discovery fallback | Key gap |
+|---|---|---|---|---|
+| ADK-Go | — | ✗ no plain-text resume | ✗ current path only | Rejects cards without `supportedInterfaces` |
+| LangChain4j | 0/153 | — | ✗ no legacy fallback | 100% of registry unreachable |
+| Mastra | — | ⚠️ fakes it | — | `resumeGenerate()` never actually continues the task |
+| CrewAI | 71/153 | ⚠️ needs `task_id`, not just `context_id` | ✗ no legacy fallback | `input_required` text lands in `error`, not `result` |
+| AG2 | — | ⚠️ no iteration limit | — | Blocks on real stdin unless overridden |
+| fasta2a | — | — | ✗ no discovery at all | Strict validation rejects spec-legal-ish real responses |
+| Agno | — | ✗ no `task_id` param | ⚠️ broken in the one working mode | Defaults to a protocol mode that 404s on non-Agno agents |
+| PraisonAI | 15/153 | — | ✗ hardcoded RPC path | Wrong part discriminator (`type` vs. spec's `kind`) |
+| Microsoft Agent Framework | 5/153 | ✅ best tested | — | Silently returns empty text on non-streaming `input_required` |
+| Strands | — | ✗ none at all | — | Silently drops the agent's reply text entirely in a common shape |
+| Raw `a2a-sdk` | — | — | — | `streaming=True` default hangs indefinitely on some real agents |
+| Google ADK | — | — | — | Pinned SDK generation can't validate several real v1.0 shapes |
+
 ### ADK-Go (`google.golang.org/adk`)
 
 The strictest client tested. Requires a card's `supportedInterfaces`
