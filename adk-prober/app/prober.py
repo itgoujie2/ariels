@@ -14,9 +14,9 @@ Deliberately does NOT use ADK's own first-party A2A client,
 `google.adk.agents.remote_a2a_agent.RemoteA2aAgent`, even though it exists
 and is officially supported: RemoteA2aAgent is a thin wrapper around
 a2a-sdk's own `Client`/`ClientFactory` -- exactly the dialect-abstracting
-SDK behavior this whole project exists to see past (see CLAUDE.md's note
-on why `a2a_wire.py` hand-rolls the wire protocol instead of depending on
-a2a-sdk at all). Using it here would silently work around the real
+SDK behavior this whole project exists to see past -- see `a2a_wire.py`'s
+own docstring for why it hand-rolls the wire protocol instead of depending
+on a2a-sdk at all. Using it here would silently work around the real
 interoperability bugs this tool is built to surface.
 """
 

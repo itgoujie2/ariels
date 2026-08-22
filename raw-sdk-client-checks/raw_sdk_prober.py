@@ -24,8 +24,8 @@ Key design decisions, confirmed live before building (not guessed):
   insideout.luthersystems.com -- times out with `streaming=True`, works
   instantly with `streaming=False`). Tested here with `streaming=False`
   explicitly (matching ADK's own default, for a fair comparison) -- the
-  default-streaming-hangs finding is documented separately in CLAUDE.md,
-  not baked into this as the primary test config.
+  default-streaming-hangs finding is documented separately (see
+  FINDINGS.md), not baked into this as the primary test config.
 - Continuation for `input-required`: unlike ADK's `RemoteA2aAgent` (which
   wraps it as a synthetic FunctionCall), the raw client is much simpler --
   `task_id`/`context_id` are fields directly on the `Message` proto, so

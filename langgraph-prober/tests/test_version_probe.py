@@ -80,8 +80,7 @@ def test_classify_error_jsonrpc_authentication_required_is_auth_required():
     unlike HTTP 401/403 there's no standard JSON-RPC code for this, but the
     phrase itself is generic enough to catch without being tailored to one
     agent's specific wording (contrast api.delx.ai's bespoke -32602 with
-    custom hint/details fields, deliberately not pattern-matched -- see
-    CLAUDE.md)."""
+    custom hint/details fields, deliberately not pattern-matched)."""
     assert (
         _classify_error(RuntimeError("A2A error -32001: Authentication required"))
         == "auth_required"

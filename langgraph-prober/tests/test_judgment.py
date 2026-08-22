@@ -5,7 +5,7 @@ Offline tests here validate the MECHANICS (JSON parsing, fallback behavior,
 runs/tolerance aggregation, wire-call plumbing) -- they cannot validate
 whether a real LLM judge call actually produces a correct verdict against a
 real agent. That's what the live validation against api.moltrust.ch /
-agent.co-legal.be / 2s.io (see CLAUDE.md) is for. Where useful, tests below
+agent.co-legal.be / 2s.io is for. Where useful, tests below
 still use the REAL captured MolTrust boilerplate-reply fixture
 (tests/fixtures/v10_moltrust_boilerplate_reply.json) as realistic input, so
 the prompt-building/parsing plumbing is exercised against real, not
@@ -248,8 +248,8 @@ def test_judge_transcript_falls_back_on_llm_exception(monkeypatch):
 def test_judge_transcript_wires_real_moltrust_reply_text_into_the_prompt(monkeypatch, load_fixture):
     """Grounds the prompt-building plumbing in a REAL captured agent
     response (api.moltrust.ch's boilerplate reply, the actual documented
-    finding this whole layer exists to catch -- see CLAUDE.md) rather than
-    synthetic text. Doesn't assert what a real LLM would judge (that's the
+    finding this whole layer exists to catch) rather than synthetic text.
+    Doesn't assert what a real LLM would judge (that's the
     live validation's job) -- just that the real text flows into the judge
     prompt intact, no crash on real-world length/content."""
     raw = load_fixture("v10_moltrust_boilerplate_reply")

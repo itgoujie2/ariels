@@ -28,9 +28,9 @@ _client: AsyncAnthropic | None = None
 # deliberately excluded and propagate immediately -- no amount of
 # waiting fixes a bad API key.
 #
-# Built via getattr rather than direct attribute access: this file is
-# kept byte-identical across 14 engine directories (see CLAUDE.md), each
-# with its own independently-resolved venv -- confirmed live that one of
+# Built via getattr rather than direct attribute access: this file is kept
+# byte-identical across every engine directory, each with its own
+# independently-resolved venv -- confirmed live that one of
 # them (agent-framework-client-checks, constrained to an older anthropic
 # SDK by agent-framework-anthropic's own pin) lacks OverloadedError
 # entirely, which a hardcoded tuple would crash on at import time.

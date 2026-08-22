@@ -5,7 +5,7 @@ the full pipeline (normalize -> transcript -> assertions) against the exact
 real response that caused a real failure, to lock in that our conformance
 checks keep catching it.
 
-Rule (see CLAUDE.md): every time probing a real agent turns up an issue, add
+Rule: every time probing a real agent turns up an issue, add
 it here -- not just new parseable shapes.
 """
 
@@ -38,8 +38,8 @@ def test_moltrust_boilerplate_reply_parses_and_has_content(load_fixture):
     a single transcript in isolation cannot distinguish a repeated boilerplate
     reply from a real, correct, differentiated one. Catching this specific
     defect deterministically would need a *cross-skill* check (do N distinct
-    probes yield the exact same response text?) that doesn't exist yet --
-    see CLAUDE.md. This test just locks in that the transcript still parses
+    probes yield the exact same response text?) that doesn't exist yet.
+    This test just locks in that the transcript still parses
     and passes the mechanical checks, so a future contributor doesn't
     mistake that for "this agent is fine."
     """

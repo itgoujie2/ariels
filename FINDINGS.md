@@ -39,11 +39,12 @@ going forward.
 What each column actually measures:
 
 - **Reachable** — out of a private registry of 153 independently discovered
-  real A2A agents (the URLs themselves stay private — see `CLAUDE.md`'s
-  scope notes — but the aggregate counts below are real, live results),
-  how many did this client successfully connect to and get a working
-  response from at all. Only 4 of the 12 clients were run at that batch
-  scale so far; `—` means "not run at that scale," not "0 passed."
+  real A2A agents (the URLs themselves stay private, since they're real
+  third-party infrastructure not ours to publish — but the aggregate
+  counts below are real, live results), how many did this client
+  successfully connect to and get a working response from at all. Only 4
+  of the 12 clients were run at that batch scale so far; `—` means "not
+  run at that scale," not "0 passed."
 - **Continuation** — when a real agent comes back mid-conversation asking
   a follow-up question (`input-required`), can the client correctly
   resume the *same* task using the real `task_id`/`context_id`, or does it

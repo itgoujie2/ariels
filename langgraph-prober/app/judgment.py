@@ -57,10 +57,10 @@ def _parse_json_object(raw: str) -> dict:
     explicitly saying "ONLY a JSON object, no markdown fences, no
     commentary" -- the model doesn't reliably comply, and llm._complete()'s
     own stripping (whitespace + surrounding quotes only) doesn't touch a
-    ```json fence or leading/trailing prose. Same pragmatic fix as
-    product/'s own _extract_trailing_json() finding (CLAUDE.md): don't
-    fight the model's own output shape, extract the JSON object substring
-    (first '{' to last '}') regardless of what surrounds it."""
+    ```json fence or leading/trailing prose. Same pragmatic fix used
+    elsewhere in this codebase for the identical problem: don't fight the
+    model's own output shape, extract the JSON object substring (first
+    '{' to last '}') regardless of what surrounds it."""
     text = raw.strip()
     start = text.find("{")
     end = text.rfind("}")
